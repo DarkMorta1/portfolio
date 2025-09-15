@@ -1,0 +1,44 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ojash Osti",
+  "givenName": "Ojash",
+  "familyName": "Osti",
+  "alternateName": ["Ojash", "Osti Ojash"],
+  "description": "Ojash Osti is a passionate software engineering student from Kathmandu, Nepal, specializing in modern web development, React, Node.js, and innovative digital solutions.",
+  "url": "https://ojashosti.dev",
+  "image": "https://ojashosti.dev/images/ojash-new-profile.jpg",
+  "jobTitle": "Software Engineering Student",
+  "worksFor": {
+    "@type": "EducationalOrganization",
+    "name": "Nepal College of Information Technology",
+    "alternateName": "NCIT"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Nepal College of Information Technology",
+    "alternateName": "NCIT"
+  },
+  "nationality": "Nepali",
+  "birthPlace": "Nepal",
+  "homeLocation": "Kathmandu, Nepal",
+  "email": "ostiojash2061@gmail.com",
+  "telephone": "+977-9863439559",
+  "sameAs": [
+    "https://www.linkedin.com/in/ojash-osti-83727a260/",
+    "https://github.com/DarkMorta1",
+    "https://www.facebook.com/ojash.osti",
+    "https://www.instagram.com/ostiojash/"
+  ],
+  "knowsAbout": [
+    "Software Engineering",
+    "Web Development",
+    "React",
+    "Node.js",
+    "JavaScript",
+    "TypeScript",
+    "MongoDB",
+    "AWS",
+    "Full Stack Development"
+  ]
+}

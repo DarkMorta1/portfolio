@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ojashosti.dev/sitemap.xml
+
+# Disallow certain paths (if any)
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Allow important files
+Allow: /images/
+Allow: /resume/
+Allow: /*.css
+Allow: /*.js
