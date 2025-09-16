@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description:
       "Portfolio of Ojash Osti, a passionate software engineering student specializing in modern web development and innovative solutions.",
   },
-    generator: 'v0.app'
+  generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -38,6 +38,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Search Console verification meta tag */}
+        <meta name="google-site-verification" content="HlUZe9Yuqw3KlCuvybWVEGuPHy9PpzPpBg9-IzD5UFI" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
