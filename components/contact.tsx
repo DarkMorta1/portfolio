@@ -10,19 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Send,
-  CheckCircle,
-  MessageSquare,
-  AlertCircle,
-} from "lucide-react"
-import { submitContactForm } from "@/app/actions/contact"
+import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Send, CheckCircle, MessageSquare } from "lucide-react"
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -40,7 +28,7 @@ export default function Contact() {
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitResult, setSubmitResult] = useState<{ success: boolean; message: string } | null>(null)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
   const validateForm = () => {
@@ -64,7 +52,7 @@ export default function Contact() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!validateForm()) {
@@ -72,31 +60,18 @@ export default function Contact() {
     }
 
     setIsSubmitting(true)
-    setSubmitResult(null)
 
-    try {
-      const formData = new FormData(e.currentTarget)
-      const result = await submitContactForm(formData)
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-      setSubmitResult(result)
+    setIsSubmitting(false)
+    setIsSubmitted(true)
+    setFormState({ name: "", email: "", message: "" })
 
-      if (result.success) {
-        setFormState({ name: "", email: "", message: "" })
-
-        // Reset success message after 7 seconds
-        setTimeout(() => {
-          setSubmitResult(null)
-        }, 7000)
-      }
-    } catch (error) {
-      console.error("Form submission error:", error)
-      setSubmitResult({
-        success: false,
-        message: "An unexpected error occurred. Please try again.",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
+    // Reset submission status after 5 seconds
+    setTimeout(() => {
+      setIsSubmitted(false)
+    }, 5000)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -275,7 +250,7 @@ export default function Contact() {
                   Send Me a Message
                 </h3>
 
-                {submitResult && submitResult.success ? (
+                {isSubmitted ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -285,21 +260,12 @@ export default function Contact() {
                       <CheckCircle className="h-12 w-12 text-green-500" />
                     </div>
                     <h4 className="text-xl font-bold mb-2">Message Sent!</h4>
-                    <p className="text-muted-foreground">{submitResult.message}</p>
+                    <p className="text-muted-foreground">
+                      Thank you for reaching out. I'll get back to you as soon as possible.
+                    </p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {submitResult && !submitResult.success && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex items-start gap-2 p-4 bg-red-500/10 border border-red-500/20 rounded-lg"
-                      >
-                        <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-                        <p className="text-sm text-red-600 dark:text-red-400">{submitResult.message}</p>
-                      </motion.div>
-                    )}
-
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
                       <Input
