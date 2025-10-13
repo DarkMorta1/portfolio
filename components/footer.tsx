@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Github, Linkedin, Mail, ArrowUp, Code2, Sparkles } from "lucide-react"
+import { Github, Linkedin, Mail, ArrowUp, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Footer() {
@@ -44,7 +44,9 @@ export default function Footer() {
           >
             <div className="flex items-center space-x-2">
               <div className="relative">
-                <Code2 className="h-8 w-8 text-primary" />
+                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">O</span>
+                </div>
                 <Sparkles className="h-3 w-3 text-primary/60 absolute -top-1 -right-1 animate-pulse" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
