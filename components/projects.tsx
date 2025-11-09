@@ -45,7 +45,6 @@ export default function Projects() {
         "A responsive weather application that provides real-time weather data and forecasts for locations worldwide.",
       technologies: ["JavaScript", "React", "CSS", "Weather API"],
       github: "https://github.com/DarkMorta1/weather-report",
-      demo: "https://your-weather-app.vercel.app",
       image: "/images/projects/weather-dashboard.jpg",
     },
     {
@@ -54,7 +53,6 @@ export default function Projects() {
         "An intelligent math problem-solving platform with step-by-step solutions, graphing capabilities, and support for various mathematical topics from algebra to calculus.",
       technologies: ["React", "Node.js", "JavaScript", "Express", "MathJax", "Chart.js", "MongoDB"],
       github: "https://github.com/DarkMorta1/Math-solver",
-      demo: "https://your-math-solver.vercel.app",
       image: "/images/projects/math-solver.jpg",
     },
   ]
@@ -237,12 +235,14 @@ export default function Projects() {
                           GitHub
                         </Link>
                       </Button>
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={project.demo} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="mr-2 h-4 w-4" />
-                          Demo
-                        </Link>
-                      </Button>
+                      {project.demo && (
+                        <Button asChild variant="outline" size="sm">
+                          <Link href={project.demo} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            Demo
+                          </Link>
+                        </Button>
+                      )}
                     </CardFooter>
                   </Card>
                 </motion.div>
