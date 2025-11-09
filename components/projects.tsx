@@ -27,6 +27,7 @@ export default function Projects() {
       github: "https://github.com/DarkMorta1/chess-master",
       demo: "#",
       featured: true,
+      image: "/images/projects/chess-master.jpg",
     },
     {
       title: "E-Commerce Platform",
@@ -36,6 +37,7 @@ export default function Projects() {
       github: "https://github.com/DarkMorta1/ecommerce-",
       demo: "#",
       featured: true,
+      image: "/images/projects/ecommerce.jpg",
     },
     {
       title: "Weather Dashboard",
@@ -44,6 +46,7 @@ export default function Projects() {
       technologies: ["JavaScript", "React", "CSS", "Weather API"],
       github: "https://github.com/DarkMorta1/weather-report",
       demo: "https://your-weather-app.vercel.app",
+      image: "/images/projects/weather-dashboard.jpg",
     },
     {
       title: "Online Math Solver Platform",
@@ -52,6 +55,7 @@ export default function Projects() {
       technologies: ["React", "Node.js", "JavaScript", "Express", "MathJax", "Chart.js", "MongoDB"],
       github: "https://github.com/DarkMorta1/Math-solver",
       demo: "https://your-math-solver.vercel.app",
+      image: "/images/projects/math-solver.jpg",
     },
   ]
 
@@ -115,17 +119,23 @@ export default function Projects() {
               >
                 <motion.div className="w-full lg:w-1/2" whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }}>
                   <div className="relative overflow-hidden rounded-xl border-2 border-primary/10 aspect-video glow">
-                    {/* Project image with cropped person */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/20 to-primary/10">
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
-                        <div className="flex gap-4">
-                          <Button asChild size="sm" variant="secondary" className="backdrop-blur-sm bg-background/70">
-                            <Link href={project.github} target="_blank" rel="noopener noreferrer">
-                              <Github className="mr-2 h-4 w-4" />
-                              GitHub
-                            </Link>
-                          </Button>
-                        </div>
+                    {project.image ? (
+                      <img
+                        src={project.image || "/placeholder.svg"}
+                        alt={`${project.title} screenshot`}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/20 to-primary/10" />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-6">
+                      <div className="flex gap-4">
+                        <Button asChild size="sm" variant="secondary" className="backdrop-blur-sm bg-background/70">
+                          <Link href={project.github} target="_blank" rel="noopener noreferrer">
+                            <Github className="mr-2 h-4 w-4" />
+                            GitHub
+                          </Link>
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -193,10 +203,16 @@ export default function Projects() {
                 >
                   <Card className="overflow-hidden h-full flex flex-col border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
                     <div className="relative h-48 w-full overflow-hidden group">
-                      {/* Project image with cropped person */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-purple-500/10 to-blue-500/10">
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      </div>
+                      {project.image ? (
+                        <img
+                          src={project.image || "/placeholder.svg"}
+                          alt={`${project.title} screenshot`}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-purple-500/10 to-blue-500/10" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                     <CardHeader>
                       <CardTitle className="flex items-center">
