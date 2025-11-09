@@ -33,7 +33,7 @@ export default function Projects() {
       description:
         "A full-stack e-commerce application with product listings, cart functionality, and secure checkout.",
       technologies: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
-      github: "https://github.com/DarkMorta1/ecommerce-platform",
+      github: "https://github.com/DarkMorta1/ecommerce-",
       demo: "#",
       featured: true,
     },
@@ -42,7 +42,7 @@ export default function Projects() {
       description:
         "A responsive weather application that provides real-time weather data and forecasts for locations worldwide.",
       technologies: ["JavaScript", "React", "CSS", "Weather API"],
-      github: "https://github.com/DarkMorta1/weather-dashboard",
+      github: "https://github.com/DarkMorta1/weather-report",
       demo: "https://your-weather-app.vercel.app",
     },
     {
@@ -50,7 +50,7 @@ export default function Projects() {
       description:
         "An intelligent math problem-solving platform with step-by-step solutions, graphing capabilities, and support for various mathematical topics from algebra to calculus.",
       technologies: ["React", "Node.js", "JavaScript", "Express", "MathJax", "Chart.js", "MongoDB"],
-      github: "https://github.com/DarkMorta1/math-solver",
+      github: "https://github.com/DarkMorta1/Math-solver",
       demo: "https://your-math-solver.vercel.app",
     },
   ]
