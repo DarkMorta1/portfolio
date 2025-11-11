@@ -22,7 +22,7 @@ export default function Projects() {
     {
       title: "Chess Master",
       description:
-        "An interactive chess game web application with AI opponent, move validation, game history, and multiplayer functionality.",
+        "An interactive chess game web application with firebase login, move validation, game history, and multiplayer functionality.",
       technologies: ["React", "TypeScript", "Chess.js", "Socket.io", "Node.js", "CSS3"],
       github: "https://github.com/DarkMorta1/chess2",
       demo: "#",
