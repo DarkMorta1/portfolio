@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Send, CheckCircle, MessageSquare } from "lucide-react"
-import toast from "react-hot-toast"
+import { Toaster, toast } from "react-hot-toast";
 import { sendEmail } from "@/app/actions/send-email"
 
 export default function Contact() {
