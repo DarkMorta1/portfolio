@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Send, CheckCircle, MessageSquare } from "lucide-react"
+import toast from "react-hot-toast"
+import { sendEmail } from "@/app/actions/send-email"
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -61,24 +63,32 @@ export default function Contact() {
 
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    try {
+      const result = await sendEmail(formState)
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormState({ name: "", email: "", message: "" })
+      if (result.success) {
+        setIsSubmitted(true)
+        setFormState({ name: "", email: "", message: "" })
+        toast.success(result.message)
 
-    // Reset submission status after 5 seconds
-    setTimeout(() => {
-      setIsSubmitted(false)
-    }, 5000)
+        setTimeout(() => {
+          setIsSubmitted(false)
+        }, 5000)
+      } else {
+        toast.error(result.message)
+      }
+    } catch (error) {
+      console.error("Send Email Error:", error)
+      toast.error("Failed to send message. Please try again or email directly.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormState((prev) => ({ ...prev, [name]: value }))
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => {
         const newErrors = { ...prev }
@@ -135,7 +145,6 @@ export default function Contact() {
 
   return (
     <section id="contact" ref={sectionRef} className="py-24 relative overflow-hidden">
-      {/* Animated background */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(var(--primary-rgb),0.1),transparent_70%)]" />
         <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-background to-transparent" />
