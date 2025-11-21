@@ -27,6 +27,14 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
+  // ------------------- DEBUG LOG -------------------
+  console.log(
+    "EMAILJS_SERVICE_ID:", process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+    "TEMPLATE_ID:", process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+    "PUBLIC_KEY:", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+  )
+  // -------------------------------------------------
+
   const validateForm = (form: HTMLFormElement) => {
     const newErrors: Record<string, string> = {}
     const name = (form.elements.namedItem("from_name") as HTMLInputElement).value.trim()
