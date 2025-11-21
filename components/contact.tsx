@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -23,6 +23,13 @@ export default function Contact() {
 
   const y = useTransform(scrollYProgress, [0, 1], [100, -100])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
+
+  // Initialize EmailJS on component mount
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
+      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY)
+    }
+  }, [])
 
   const [formState, setFormState] = useState({
     name: "",
@@ -54,20 +61,25 @@ export default function Contact() {
     try {
       if (!formRef.current) throw new Error("Form ref not found")
 
+      // Check if environment variables are set
+      if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || !process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID) {
+        throw new Error("EmailJS configuration is missing. Please check your .env.local file.")
+      }
+
       await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        formRef.current
       )
 
       setIsSubmitted(true)
       setFormState({ name: "", email: "", message: "" })
-      toast.success("Message sent!")
+      toast.success("Message sent successfully! 🎉")
       setTimeout(() => setIsSubmitted(false), 5000)
     } catch (error) {
       console.error("Send Email Error:", error)
-      toast.error("Failed to send message. Please try again or email directly.")
+      const errorMessage = error instanceof Error ? error.message : "Failed to send message"
+      toast.error(errorMessage)
     } finally {
       setIsSubmitting(false)
     }
