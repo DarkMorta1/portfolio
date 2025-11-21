@@ -28,6 +28,9 @@ export default function Contact() {
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
       emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY)
+      console.log("EmailJS initialized successfully")
+    } else {
+      console.error("NEXT_PUBLIC_EMAILJS_PUBLIC_KEY is not defined")
     }
   }, [])
 
@@ -66,6 +69,15 @@ export default function Contact() {
         throw new Error("EmailJS configuration is missing. Please check your .env.local file.")
       }
 
+      console.log("Sending email with:")
+      console.log("Service ID:", process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID)
+      console.log("Template ID:", process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID)
+      console.log("Form data:", {
+        user_name: formState.name,
+        user_email: formState.email,
+        message: formState.message,
+      })
+
       await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
@@ -78,7 +90,7 @@ export default function Contact() {
       setTimeout(() => setIsSubmitted(false), 5000)
     } catch (error) {
       console.error("Send Email Error:", error)
-      const errorMessage = error instanceof Error ? error.message : "Failed to send message"
+      const errorMessage = error instanceof Error ? error.message : "Failed to send message. Please check your email or try again."
       toast.error(errorMessage)
     } finally {
       setIsSubmitting(false)
@@ -182,14 +194,14 @@ export default function Contact() {
                 ) : (
                   <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" name="name" placeholder="Your name" value={formState.name} onChange={handleChange} className={`${errors.name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      <Label htmlFor="user_name">Name</Label>
+                      <Input id="user_name" name="user_name" placeholder="Your name" value={formState.name} onChange={handleChange} className={`${errors.name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
                       {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input id="email" name="email" type="email" placeholder="Your email" value={formState.email} onChange={handleChange} className={`${errors.email ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      <Label htmlFor="user_email">Email</Label>
+                      <Input id="user_email" name="user_email" type="email" placeholder="Your email" value={formState.email} onChange={handleChange} className={`${errors.email ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
                       {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                     </div>
 
