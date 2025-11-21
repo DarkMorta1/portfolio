@@ -15,6 +15,7 @@ import emailjs from "@emailjs/browser"
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -35,8 +36,12 @@ export default function Contact() {
   )
   // -------------------------------------------------
 
-  const validateForm = (form: HTMLFormElement) => {
+  // Validation using template variable names
+  const validateForm = () => {
+    const form = formRef.current
+    if (!form) return false
     const newErrors: Record<string, string> = {}
+
     const name = (form.elements.namedItem("from_name") as HTMLInputElement).value.trim()
     const email = (form.elements.namedItem("from_email") as HTMLInputElement).value.trim()
     const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value.trim()
@@ -52,9 +57,10 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = e.target as HTMLFormElement
+    const form = formRef.current
+    if (!form) return
 
-    if (!validateForm(form)) return
+    if (!validateForm()) return
 
     setIsSubmitting(true)
 
@@ -162,7 +168,7 @@ export default function Contact() {
                     <p className="text-muted-foreground">Thank you for reaching out. I'll get back to you as soon as possible.</p>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
                       <Input id="name" name="from_name" placeholder="Your name" className={`${errors.from_name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
