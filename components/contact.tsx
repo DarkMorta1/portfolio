@@ -44,7 +44,7 @@ export default function Contact() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!validateForm()) return
@@ -52,14 +52,12 @@ export default function Contact() {
     setIsSubmitting(true)
 
     try {
-      await emailjs.send(
+      const form = e.target as HTMLFormElement
+
+      await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: formState.name,
-          from_email: formState.email,
-          message: formState.message,
-        },
+        form,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       )
 
@@ -174,13 +172,13 @@ export default function Contact() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
-                      <Input id="name" name="name" placeholder="Your name" value={formState.name} onChange={handleChange} className={`${errors.name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      <Input id="name" name="from_name" placeholder="Your name" value={formState.name} onChange={handleChange} className={`${errors.name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
                       {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" name="email" type="email" placeholder="Your email" value={formState.email} onChange={handleChange} className={`${errors.email ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      <Input id="email" name="from_email" type="email" placeholder="Your email" value={formState.email} onChange={handleChange} className={`${errors.email ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
                       {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
                     </div>
 
