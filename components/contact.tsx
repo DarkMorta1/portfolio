@@ -23,22 +23,20 @@ export default function Contact() {
   const y = useTransform(scrollYProgress, [0, 1], [100, -100])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
 
-  const validateForm = () => {
+  const validateForm = (form: HTMLFormElement) => {
     const newErrors: Record<string, string> = {}
+    const name = (form.elements.namedItem("from_name") as HTMLInputElement).value.trim()
+    const email = (form.elements.namedItem("from_email") as HTMLInputElement).value.trim()
+    const message = (form.elements.namedItem("message") as HTMLTextAreaElement).value.trim()
 
-    if (!formState.name.trim()) newErrors.name = "Name is required"
-    if (!formState.email.trim()) newErrors.email = "Email is required"
-    else if (!/^\S+@\S+\.\S+$/.test(formState.email)) newErrors.email = "Email is invalid"
-    if (!formState.message.trim()) newErrors.message = "Message is required"
+    if (!name) newErrors.from_name = "Name is required"
+    if (!email) newErrors.from_email = "Email is required"
+    else if (!/^\S+@\S+\.\S+$/.test(email)) newErrors.from_email = "Email is invalid"
+    if (!message) newErrors.message = "Message is required"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -46,14 +44,13 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const form = e.target as HTMLFormElement
 
-    if (!validateForm()) return
+    if (!validateForm(form)) return
 
     setIsSubmitting(true)
 
     try {
-      const form = e.target as HTMLFormElement
-
       await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
@@ -62,7 +59,8 @@ export default function Contact() {
       )
 
       setIsSubmitted(true)
-      setFormState({ name: "", email: "", message: "" })
+      form.reset()
+      setErrors({})
       toast.success("Message sent!")
 
       setTimeout(() => setIsSubmitted(false), 5000)
@@ -71,19 +69,6 @@ export default function Contact() {
       toast.error("Failed to send message. Please try again or email directly.")
     } finally {
       setIsSubmitting(false)
-    }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormState((prev) => ({ ...prev, [name]: value }))
-
-    if (errors[name]) {
-      setErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors[name]
-        return newErrors
-      })
     }
   }
 
@@ -172,19 +157,19 @@ export default function Contact() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
-                      <Input id="name" name="from_name" placeholder="Your name" value={formState.name} onChange={handleChange} className={`${errors.name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
-                      {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+                      <Input id="name" name="from_name" placeholder="Your name" className={`${errors.from_name ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      {errors.from_name && <p className="text-sm text-red-500">{errors.from_name}</p>}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" name="from_email" type="email" placeholder="Your email" value={formState.email} onChange={handleChange} className={`${errors.email ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
-                      {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+                      <Input id="email" name="from_email" type="email" placeholder="Your email" className={`${errors.from_email ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      {errors.from_email && <p className="text-sm text-red-500">{errors.from_email}</p>}
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="message">Message</Label>
-                      <Textarea id="message" name="message" placeholder="Your message" rows={5} value={formState.message} onChange={handleChange} className={`${errors.message ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
+                      <Textarea id="message" name="message" placeholder="Your message" rows={5} className={`${errors.message ? "border-red-500" : "border-input"} focus:border-primary transition-colors`} />
                       {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
                     </div>
 
