@@ -47,28 +47,23 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!validateForm()) return
 
     setIsSubmitting(true)
 
     try {
-      await emailjs.send(
+      if (!formRef.current) throw new Error("Form ref not found")
+
+      await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          name: formState.name,        // matches {{name}} in EmailJS
-          email: formState.email,      // matches {{email}} in EmailJS
-          title: "Contact Us",         // matches {{title}} in EmailJS
-          message: formState.message,  // matches {{message}} in EmailJS
-        },
+        formRef.current,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       )
 
       setIsSubmitted(true)
       setFormState({ name: "", email: "", message: "" })
       toast.success("Message sent!")
-
       setTimeout(() => setIsSubmitted(false), 5000)
     } catch (error) {
       console.error("Send Email Error:", error)
