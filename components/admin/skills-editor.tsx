@@ -138,3 +138,4 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
 }
 
 
+
