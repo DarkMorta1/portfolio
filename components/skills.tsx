@@ -8,8 +8,10 @@ import { useRef } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { usePortfolioData } from "@/hooks/use-portfolio-data"
 
 export default function Skills() {
+  const { data } = usePortfolioData()
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -19,85 +21,100 @@ export default function Skills() {
   const y = useTransform(scrollYProgress, [0, 1], [50, -50])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
-  const skillCategories = [
-    {
-      id: "frontend",
-      title: "Frontend",
-      icon: <Layout className="h-6 w-6" />,
-      color: "bg-blue-500/10 text-blue-500 dark:bg-blue-500/20",
-      skills: [
-        { name: "HTML", level: 90 },
-        { name: "CSS", level: 85 },
-        { name: "JavaScript", level: 85 },
-        { name: "React", level: 80 },
-        { name: "Next.js", level: 75 },
-        { name: "Tailwind CSS", level: 90 },
-      ],
-    },
-    {
-      id: "backend",
-      title: "Backend",
-      icon: <Server className="h-6 w-6" />,
-      color: "bg-green-500/10 text-green-500 dark:bg-green-500/20",
-      skills: [
-        { name: "Node.js", level: 80 },
-        { name: "Express", level: 75 },
-        { name: "Python", level: 70 },
-        { name: "Django", level: 65 },
-        { name: "RESTful APIs", level: 85 },
-      ],
-    },
-    {
-      id: "databases",
-      title: "Databases",
-      icon: <Database className="h-6 w-6" />,
-      color: "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20",
-      skills: [
-        { name: "MongoDB", level: 80 },
-        { name: "MySQL", level: 75 },
-        { name: "PostgreSQL", level: 70 },
-        { name: "Firebase", level: 85 },
-      ],
-    },
-    {
-      id: "programming",
-      title: "Programming",
-      icon: <Code className="h-6 w-6" />,
-      color: "bg-purple-500/10 text-purple-500 dark:bg-purple-500/20",
-      skills: [
-        { name: "JavaScript", level: 90 },
-        { name: "TypeScript", level: 80 },
-        { name: "Python", level: 75 },
-        { name: "Java", level: 70 },
-        { name: "C++", level: 65 },
-      ],
-    },
-    {
-      id: "devops",
-      title: "DevOps",
-      icon: <Terminal className="h-6 w-6" />,
-      color: "bg-red-500/10 text-red-500 dark:bg-red-500/20",
-      skills: [
-        { name: "Git", level: 85 },
-        { name: "Docker", level: 70 },
-        { name: "CI/CD", level: 65 },
-        { name: "AWS", level: 60 },
-        { name: "Vercel", level: 80 },
-      ],
-    },
-    {
-      id: "other",
-      title: "Other",
-      icon: <Globe className="h-6 w-6" />,
-      color: "bg-teal-500/10 text-teal-500 dark:bg-teal-500/20",
-      skills: [
-        { name: "UI/UX Design", level: 75 },
-        { name: "Responsive Design", level: 85 },
-        { name: "SEO", level: 70 },
-        { name: "Performance Optimization", level: 75 },
-      ],
-    },
-  ]
+  const skillCategories =
+    data?.skills?.categories?.map((cat: any) => ({
+      ...cat,
+      icon:
+        cat.icon === "Layout"
+          ? <Layout className="h-6 w-6" />
+          : cat.icon === "Server"
+            ? <Server className="h-6 w-6" />
+            : cat.icon === "Database"
+              ? <Database className="h-6 w-6" />
+              : cat.icon === "Terminal"
+                ? <Terminal className="h-6 w-6" />
+                : cat.icon === "Globe"
+                  ? <Globe className="h-6 w-6" />
+                  : <Code className="h-6 w-6" />,
+    })) || [
+      {
+        id: "frontend",
+        title: "Frontend",
+        icon: <Layout className="h-6 w-6" />,
+        color: "bg-blue-500/10 text-blue-500 dark:bg-blue-500/20",
+        skills: [
+          { name: "HTML", level: 90 },
+          { name: "CSS", level: 85 },
+          { name: "JavaScript", level: 85 },
+          { name: "React", level: 80 },
+          { name: "Next.js", level: 75 },
+          { name: "Tailwind CSS", level: 90 },
+        ],
+      },
+      {
+        id: "backend",
+        title: "Backend",
+        icon: <Server className="h-6 w-6" />,
+        color: "bg-green-500/10 text-green-500 dark:bg-green-500/20",
+        skills: [
+          { name: "Node.js", level: 80 },
+          { name: "Express", level: 75 },
+          { name: "Python", level: 70 },
+          { name: "Django", level: 65 },
+          { name: "RESTful APIs", level: 85 },
+        ],
+      },
+      {
+        id: "databases",
+        title: "Databases",
+        icon: <Database className="h-6 w-6" />,
+        color: "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20",
+        skills: [
+          { name: "MongoDB", level: 80 },
+          { name: "MySQL", level: 75 },
+          { name: "PostgreSQL", level: 70 },
+          { name: "Firebase", level: 85 },
+        ],
+      },
+      {
+        id: "programming",
+        title: "Programming",
+        icon: <Code className="h-6 w-6" />,
+        color: "bg-purple-500/10 text-purple-500 dark:bg-purple-500/20",
+        skills: [
+          { name: "JavaScript", level: 90 },
+          { name: "TypeScript", level: 80 },
+          { name: "Python", level: 75 },
+          { name: "Java", level: 70 },
+          { name: "C++", level: 65 },
+        ],
+      },
+      {
+        id: "devops",
+        title: "DevOps",
+        icon: <Terminal className="h-6 w-6" />,
+        color: "bg-red-500/10 text-red-500 dark:bg-red-500/20",
+        skills: [
+          { name: "Git", level: 85 },
+          { name: "Docker", level: 70 },
+          { name: "CI/CD", level: 65 },
+          { name: "AWS", level: 60 },
+          { name: "Vercel", level: 80 },
+        ],
+      },
+      {
+        id: "other",
+        title: "Other",
+        icon: <Globe className="h-6 w-6" />,
+        color: "bg-teal-500/10 text-teal-500 dark:bg-teal-500/20",
+        skills: [
+          { name: "UI/UX Design", level: 75 },
+          { name: "Responsive Design", level: 85 },
+          { name: "SEO", level: 70 },
+          { name: "Performance Optimization", level: 75 },
+        ],
+      },
+    ]
 
   const container = {
     hidden: { opacity: 0 },

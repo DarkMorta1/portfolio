@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Github, ExternalLink, Code, Layers, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useRef } from "react"
+import { usePortfolioData } from "@/hooks/use-portfolio-data"
 
 export default function Projects() {
+  const { data } = usePortfolioData()
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -18,44 +20,45 @@ export default function Projects() {
   const y = useTransform(scrollYProgress, [0, 1], [100, -100])
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
 
-  const projects = [
-    {
-      title: "Chess Master",
-      description:
-        "An interactive chess game web application with firebase login, move validation, game history, and multiplayer functionality.",
-      technologies: ["React", "TypeScript", "Chess.js", "Socket.io", "Node.js", "CSS3"],
-      github: "https://github.com/DarkMorta1/chess2",
-      demo: "#",
-      featured: true,
-      image: "/images/projects/chess-master.jpg",
-    },
-    {
-      title: "E-Commerce Platform",
-      description:
-        "A full-stack e-commerce application with product listings, cart functionality, and secure checkout.",
-      technologies: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
-      github: "https://github.com/DarkMorta1/ecommerce-",
-      demo: "#",
-      featured: true,
-      image: "/images/projects/ecommerce.jpg",
-    },
-    {
-      title: "Weather Dashboard",
-      description:
-        "A responsive weather application that provides real-time weather data and forecasts for locations worldwide.",
-      technologies: ["JavaScript", "React", "CSS", "Weather API"],
-      github: "https://github.com/DarkMorta1/weather-report",
-      image: "/images/projects/weather-dashboard.jpg",
-    },
-    {
-      title: "Online Math Solver Platform",
-      description:
-        "An intelligent math problem-solving platform with step-by-step solutions, graphing capabilities, and support for various mathematical topics from algebra to calculus.",
-      technologies: ["React", "Node.js", "JavaScript", "Express", "MathJax", "Chart.js", "MongoDB"],
-      github: "https://github.com/DarkMorta1/Math-solver",
-      image: "/images/projects/math-solver.jpg",
-    },
-  ]
+  const projects =
+    data?.projects || [
+      {
+        title: "Chess Master",
+        description:
+          "An interactive chess game web application with firebase login, move validation, game history, and multiplayer functionality.",
+        technologies: ["React", "TypeScript", "Chess.js", "Socket.io", "Node.js", "CSS3"],
+        github: "https://github.com/DarkMorta1/chess2",
+        demo: "#",
+        featured: true,
+        image: "/images/projects/chess-master.jpg",
+      },
+      {
+        title: "E-Commerce Platform",
+        description:
+          "A full-stack e-commerce application with product listings, cart functionality, and secure checkout.",
+        technologies: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
+        github: "https://github.com/DarkMorta1/ecommerce-",
+        demo: "#",
+        featured: true,
+        image: "/images/projects/ecommerce.jpg",
+      },
+      {
+        title: "Weather Dashboard",
+        description:
+          "A responsive weather application that provides real-time weather data and forecasts for locations worldwide.",
+        technologies: ["JavaScript", "React", "CSS", "Weather API"],
+        github: "https://github.com/DarkMorta1/weather-report",
+        image: "/images/projects/weather-dashboard.jpg",
+      },
+      {
+        title: "Online Math Solver Platform",
+        description:
+          "An intelligent math problem-solving platform with step-by-step solutions, graphing capabilities, and support for various mathematical topics from algebra to calculus.",
+        technologies: ["React", "Node.js", "JavaScript", "Express", "MathJax", "Chart.js", "MongoDB"],
+        github: "https://github.com/DarkMorta1/Math-solver",
+        image: "/images/projects/math-solver.jpg",
+      },
+    ]
 
   const container = {
     hidden: { opacity: 0 },

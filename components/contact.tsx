@@ -12,8 +12,11 @@ import { Badge } from "@/components/ui/badge"
 import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Send, CheckCircle, MessageSquare } from "lucide-react"
 import { Toaster, toast } from "react-hot-toast"
 import emailjs from "@emailjs/browser"
+import { usePortfolioData } from "@/hooks/use-portfolio-data"
 
 export default function Contact() {
+  const { data } = usePortfolioData()
+  const contactData = data?.contact || {}
   const sectionRef = useRef<HTMLElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const { scrollYProgress } = useScroll({
@@ -111,15 +114,27 @@ export default function Contact() {
   }
 
   const contactInfo = [
-    { icon: <Phone className="h-5 w-5" />, title: "Phone", value: "9863439559", href: "tel:9863439559", color: "bg-blue-500/10 text-blue-500 dark:bg-blue-500/20" },
-    { icon: <Mail className="h-5 w-5" />, title: "Email", value: "ostiojash2061@gmail.com", href: "mailto:ostiojash2061@gmail.com", color: "bg-green-500/10 text-green-500 dark:bg-green-500/20" },
+    {
+      icon: <Phone className="h-5 w-5" />,
+      title: "Phone",
+      value: contactData.phone || "9863439559",
+      href: contactData.phone ? `tel:${contactData.phone}` : "tel:9863439559",
+      color: "bg-blue-500/10 text-blue-500 dark:bg-blue-500/20",
+    },
+    {
+      icon: <Mail className="h-5 w-5" />,
+      title: "Email",
+      value: contactData.email || "ostiojash2061@gmail.com",
+      href: `mailto:${contactData.email || "ostiojash2061@gmail.com"}`,
+      color: "bg-green-500/10 text-green-500 dark:bg-green-500/20",
+    },
     { icon: <MapPin className="h-5 w-5" />, title: "Location", value: "Kathmandu, Nepal", href: "#", color: "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20" },
   ]
 
   const socialLinks = [
     { icon: <Facebook className="h-5 w-5" />, href: "https://www.facebook.com/ojash.osti", label: "Facebook", color: "bg-blue-500/10 hover:bg-blue-500/20 text-blue-500" },
     { icon: <Instagram className="h-5 w-5" />, href: "https://www.instagram.com/ostiojash/", label: "Instagram", color: "bg-pink-500/10 hover:bg-pink-500/20 text-pink-500" },
-    { icon: <Linkedin className="h-5 w-5" />, href: "https://www.linkedin.com/in/ojash-osti-83727a260/", label: "LinkedIn", color: "bg-blue-600/10 hover:bg-blue-600/20 text-blue-600" },
+    { icon: <Linkedin className="h-5 w-5" />, href: contactData.linkedin || "https://www.linkedin.com/in/ojash-osti-83727a260/", label: "LinkedIn", color: "bg-blue-600/10 hover:bg-blue-600/20 text-blue-600" },
   ]
 
   return (

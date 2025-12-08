@@ -5,8 +5,22 @@ import { Button } from "@/components/ui/button"
 import { ArrowDown, Github, Linkedin, Mail, ChevronRight, Download, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { usePortfolioData } from "@/hooks/use-portfolio-data"
 
 export default function Hero() {
+  const { data } = usePortfolioData()
+
+  const heroData =
+    data?.hero || {
+      name: "Ojash Osti",
+      title: "Software Engineer & Developer",
+      subtitle: "Turning Ideas into Digital Reality",
+      description:
+        "I'm passionate about building innovative software solutions that solve real-world problems. With a strong foundation in modern technologies, I'm constantly learning and growing as a developer.",
+      profileImage: "/images/ojash-new-profile.jpg",
+    }
+
+  const contactData = data?.contact || {}
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
@@ -47,18 +61,22 @@ export default function Hero() {
   }, [])
 
   const socialLinks = [
-    { icon: <Github className="h-5 w-5" />, href: "https://github.com/DarkMorta1", label: "GitHub" },
+    {
+      icon: <Github className="h-5 w-5" />,
+      href: contactData.github || "https://github.com/DarkMorta1",
+      label: "GitHub",
+    },
     {
       icon: <Linkedin className="h-5 w-5" />,
-      href: "https://www.linkedin.com/in/ojash-osti-83727a260/",
+      href: contactData.linkedin || "https://www.linkedin.com/in/ojash-osti-83727a260/",
       label: "LinkedIn",
     },
-    { icon: <Mail className="h-5 w-5" />, href: "mailto:ostiojash2061@gmail.com", label: "Email" },
+    { icon: <Mail className="h-5 w-5" />, href: `mailto:${contactData.email || "ostiojash2061@gmail.com"}`, label: "Email" },
   ]
 
   const handleResumeDownload = () => {
     // Use the actual resume file path
-    const resumeUrl = "/resume/Ojash_Osti_Resume.pdf"
+    const resumeUrl = contactData.resume || "/resume/Ojash_Osti_Resume.pdf"
     const link = document.createElement("a")
     link.href = resumeUrl
     link.download = "Ojash_Osti_Resume.pdf"
@@ -120,7 +138,7 @@ export default function Hero() {
             Hi, I'm{" "}
             <span className="relative inline-block">
               <span className="bg-gradient-to-r from-primary via-purple-600 to-primary bg-clip-text text-transparent animate-gradient bg-300%">
-                Ojash Osti
+                {heroData.name}
               </span>
               <motion.span
                 className="absolute -bottom-2 left-0 h-1.5 bg-gradient-to-r from-primary to-purple-600 rounded-full"
@@ -137,7 +155,10 @@ export default function Hero() {
             transition={{ delay: 0.7, duration: 0.7 }}
             className="text-xl md:text-3xl font-medium text-muted-foreground mb-6"
           >
-            Turning Ideas into <span className="text-primary font-semibold">Digital Reality</span>
+            {heroData.subtitle?.split(" ").slice(0, 3).join(" ") || "Turning Ideas into"}{" "}
+            <span className="text-primary font-semibold">
+              {heroData.subtitle?.split(" ").slice(3).join(" ") || "Digital Reality"}
+            </span>
           </motion.h2>
 
           <motion.p
@@ -146,8 +167,7 @@ export default function Hero() {
             transition={{ delay: 0.9, duration: 0.7 }}
             className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl leading-relaxed"
           >
-            I'm passionate about building innovative software solutions that solve real-world problems. With a strong
-            foundation in modern technologies, I'm constantly learning and growing as a developer.
+            {heroData.description}
           </motion.p>
 
           <motion.div
@@ -239,7 +259,7 @@ export default function Hero() {
               <div
                 className="absolute inset-0 hover:scale-110 transition-transform duration-700"
                 style={{
-                  backgroundImage: "url('/images/ojash-new-profile.jpg')",
+                  backgroundImage: `url('${heroData.profileImage || "/images/ojash-new-profile.jpg"}')`,
                   backgroundSize: "85%",
                   backgroundPosition: "center center",
                   backgroundRepeat: "no-repeat",

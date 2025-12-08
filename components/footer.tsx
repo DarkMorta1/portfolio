@@ -4,20 +4,24 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { Github, Linkedin, Mail, ArrowUp, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { usePortfolioData } from "@/hooks/use-portfolio-data"
 
 export default function Footer() {
+  const { data } = usePortfolioData()
+  const contactData = data?.contact || {}
+  const name = data?.hero?.name || "Ojash Osti"
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
   const socialLinks = [
-    { icon: <Github className="h-5 w-5" />, href: "https://github.com/DarkMorta1", label: "GitHub" },
+    { icon: <Github className="h-5 w-5" />, href: contactData.github || "https://github.com/DarkMorta1", label: "GitHub" },
     {
       icon: <Linkedin className="h-5 w-5" />,
-      href: "https://www.linkedin.com/in/ojash-osti-83727a260/",
+      href: contactData.linkedin || "https://www.linkedin.com/in/ojash-osti-83727a260/",
       label: "LinkedIn",
     },
-    { icon: <Mail className="h-5 w-5" />, href: "mailto:ostiojash2061@gmail.com", label: "Email" },
+    { icon: <Mail className="h-5 w-5" />, href: `mailto:${contactData.email || "ostiojash2061@gmail.com"}`, label: "Email" },
   ]
 
   const quickLinks = [
@@ -50,7 +54,7 @@ export default function Footer() {
                 <Sparkles className="h-3 w-3 text-primary/60 absolute -top-1 -right-1 animate-pulse" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                Ojash Osti
+                {name}
               </span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
@@ -90,8 +94,8 @@ export default function Footer() {
             <h3 className="font-semibold mb-4 text-foreground">Contact</h3>
             <div className="space-y-2 text-sm text-muted-foreground">
               <p>Kathmandu, Nepal</p>
-              <p>ostiojash2061@gmail.com</p>
-              <p>+977 9863439559</p>
+              <p>{contactData.email || "ostiojash2061@gmail.com"}</p>
+              <p>{contactData.phone || "+977 9863439559"}</p>
             </div>
           </motion.div>
 

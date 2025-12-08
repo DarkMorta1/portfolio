@@ -6,11 +6,15 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 import { Menu, X, Sparkles } from "lucide-react"
+import { usePortfolioData } from "@/hooks/use-portfolio-data"
 
 export default function Navbar() {
+  const { data } = usePortfolioData()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState("home")
+  const name = data?.hero?.name || "Ojash"
+  const initials = name.trim().charAt(0).toUpperCase() || "O"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,12 +63,12 @@ export default function Navbar() {
             <Link href="#home" className="flex items-center space-x-2 group">
               <div className="relative">
                 <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">O</span>
+                  <span className="text-white font-bold text-sm">{initials}</span>
                 </div>
                 <Sparkles className="h-3 w-3 text-primary/60 absolute -top-1 -right-1 animate-pulse" />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-                Ojash
+                {name}
               </span>
             </Link>
           </motion.div>
