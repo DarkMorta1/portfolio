@@ -102,7 +102,9 @@ export default function Contact() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormState((prev) => ({ ...prev, [name]: value }))
+    // Normalize EmailJS field names to local state keys
+    const key = name === "user_name" ? "name" : name === "user_email" ? "email" : name
+    setFormState((prev) => ({ ...prev, [key]: value }))
 
     if (errors[name]) {
       setErrors((prev) => {
