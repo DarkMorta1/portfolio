@@ -8,9 +8,9 @@ import { Toaster } from "@/components/ui/sonner"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Ojash Osti - Software Engineer & Developer",
+  title: "Ojash Osti — Independent Designer & Developer",
   description:
-    "Portfolio of Ojash Osti, a passionate software engineering student specializing in modern web development and innovative solutions.",
+    "The portfolio of Ojash Osti — an independent designer and developer creating thoughtful digital experiences.",
   keywords: ["Ojash Osti", "Software Engineer", "Web Developer", "Portfolio", "React", "Next.js", "TypeScript"],
   authors: [{ name: "Ojash Osti" }],
   creator: "Ojash Osti",
